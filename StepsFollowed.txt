@@ -1,0 +1,112 @@
+ Here are the steps that I follow to perform the tasks
+     Setting up 
+     Pre-commit hooks
+     Post-commit hooks
+     Testing 
+     Integrating with Slack 
+
+Navigate to your Git repository on my local machine:
+   
+    Clone the got Repo (feature/addlogin)
+    cmd:     git clone  .....link of repo
+    Creat and Write on a text.txt file
+    nano text.txt
+    make changes 
+    add using 
+             cmd:  git add text.txt
+    commit using
+             cmd:  git commit -m "my massages available on git repo"
+
+    then i merge feature branch to main ]
+               using cmd: git checkout main
+                          git pull origin main
+                          git merge feature/add-login
+                          git push origin main
+
+
+
+
+    Then Inside the repository, create a file named pre-commit in the .git/hooks directory
+             cmd: touch .git/hooks/pre-commit
+    and add following bash script
+   
+   #!/bin/bash
+
+# Prevent trailing whitespace
+if git diff --check --cached | grep -q "^\+.*[[:blank:]]$"; then
+    echo "Error: Trailing whitespace detected. Please remove before committing."
+    exit 1
+fi
+
+# Prevent console.log statements
+if git diff --cached | grep -q "^\+.*console\.log"; then
+    echo "Error: console.log statements detected. Please remove before committing."
+    exit 1
+fi
+
+exit 0
+  
+
+   Make the pre-commit script executable:
+                cmd: chmod +x .git/hooks/pre-commit
+   then test it on a file names plaintext.txt
+
+here are the outputs 
+
+┌──(suleman㉿kali)-[~/Desktop/Task/git_task]
+└─$ git commit -m "Test pre-commit hook"
+Error: Trailing whitespace detected. Please remove before committing.
+                                                                                                                                                                                                                                            
+┌──(suleman㉿kali)-[~/Desktop/Task/git_task]
+└─$ nano plaintext.txt            
+                                                                                                                                                                                                                                            
+┌──(suleman㉿kali)-[~/Desktop/Task/git_task]
+└─$ git add plaintext.txt               
+                                                                                                                                                                                                                                            
+┌──(suleman㉿kali)-[~/Desktop/Task/git_task]
+└─$ git commit -m "Test pre-commit hook"
+Error: console.log statements detected. Please remove before committing.
+                                                                                                                                                                                                                                            
+┌──(suleman㉿kali)-[~/Desktop/Task/git_task]
+└─$ nano plaintext.txt               
+                                                                                                                                                                                                                                            
+┌──(suleman㉿kali)-[~/Desktop/Task/git_task]
+└─$ git add plaintext.txt               
+                                                                                                                                                                                                                                            
+┌──(suleman㉿kali)-[~/Desktop/Task/git_task]
+└─$ git commit -m "Test pre-commit hook"
+[feature/add-login 4c98985] Test pre-commit hook
+ 1 file changed, 3 insertions(+)
+ create mode 100644 plaintext.txt
+                                                                           
+
+
+after commiting it i develop a script post-commit
+
+#!/bin/bash
+
+# Your Slack webhook URL
+WEBHOOK_URL="https://app.whistleit.io/api/webhooks/64d1f8fc602e1e5d893bc831"
+
+# Message to send
+MESSAGE="Congratulations! A pull request has been merged."
+
+# Send the message to Slack
+curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$MESSAGE\"}" $WEBHOOK_URL
+
+
+then make it executable like above 
+
+   
+   then i set webhook and sent sent msg to whisl it.
+
+
+finaly again checkout to main branch 
+
+
+   merge feature/add-lgin branch in main branch
+             cmd: git checkout main
+                  git pull origin main
+                  git merge feature/add-login
+                  git push origin main
+
