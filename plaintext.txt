@@ -1,3 +1,20 @@
+
+#with white space error 
+
+#This is a line with no trailing whitespace
+#Some code here
+#console.log("Debugging message removed")
+
+# with console error
+
+#This is a line with no trailing whitespace
+#Some code here
+#console.log("Debugging message removed")
+
+
+
+
+# no error 
 This is a line with no trailing whitespace
 <<br> Hello World!<br>
 console("Debugging message removed")
